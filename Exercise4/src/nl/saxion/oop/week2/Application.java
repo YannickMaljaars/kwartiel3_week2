@@ -1,6 +1,7 @@
 package nl.saxion.oop.week2;
 
 import nl.saxion.app.SaxionApp;
+import nl.saxion.oop.week2.model.Airplane;
 import nl.saxion.oop.week2.model.Passenger;
 
 import java.awt.*;
@@ -10,6 +11,8 @@ public class Application implements Runnable {
     public static void main(String[] args) {
         SaxionApp.start(new Application(), 1024, 768);
     }
+
+    Airplane plane = new Airplane(5);
 
     public void run() {
         int menuInput = -1;
@@ -43,16 +46,44 @@ public class Application implements Runnable {
                 SaxionApp.printLine();
 
                 // TODO: Create your own implementation of how to get the passenger on board of your airplane!
+                try{
+                    plane.boardPassenger(nextPassenger);
+                } catch (Exception e) {
+                    SaxionApp.printLine(e.getMessage());
+                }
+
 
                 SaxionApp.pause();
             } else if (menuInput == 2) {
 
                 // TODO: Implement the locking / unlocking of doors.
+                if(plane.hasLockedDoors()){
+                    plane.unlockDoors();
+                    SaxionApp.printLine("The doors have been unlocked");
+                }else {
+                    try {
+                        plane.lockDoors();
+                        SaxionApp.printLine("The doors have been locked");
+                    } catch (Exception e) {
+                        SaxionApp.printLine(e.getMessage());
+                    }
+
+                }
+
 
                 SaxionApp.pause();
             } else if (menuInput == 9) {
 
                 // TODO: Implement departure. You can just print out a sentence if departure is successful.
+                try {
+                    plane.depart();
+                    SaxionApp.printLine("Plane has departed!");
+                } catch (IllegalStateException e) {
+                    SaxionApp.printLine(e.getMessage());
+                }
+
+                SaxionApp.pause();
+
             }
 
         } while (menuInput != 0);
